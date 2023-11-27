@@ -1,0 +1,45 @@
+
+    {% extends "base.html" %}
+
+    {% block title %} {{session["name"]}} {{session["lastName"]}} {% endblock %}
+
+    
+    {% block link %} <link rel="stylesheet" href="{{ url_for('static', filename='css/usersPerfil.css') }}"> {% endblock %}
+
+    {% block content %}
+    <div class="perfilContainer">
+        <div class="imgPerfil">
+            {% if users[6] == None %}
+            <img src="../static/img/noimage.webp" alt="" width="100">
+            {% else %}
+            <img src="/mostrarImg/{{users[6]}}" alt="" width="100">
+            {% endif %}
+        </div>
+        <h2>{{session["name"]}} {{session["lastName"]}}</h2>
+        <p><b>Correo:</b> {{users[4]}}</p>
+        <p><b>Teléfono:</b> {{users[3]}}</p>
+        <a href="#" id="BtnModalPerfil" class="BtnModalPerfil">Editar perfil</a>
+    </div>
+
+    <div class="modalPerfil" id="modalPerfil">
+        <div class="perfilModalContent">
+            <i class="fa-solid fa-x closeModal" id="closeModal"></i>
+            <h1>Editar tu perfil</h1>
+            <div class="imgPerfil">
+                {% if users[6] == None %}
+                <img src="../static/img/noimage.webp" alt="" width="100">
+                {% else %}
+                <img src="/mostrarImg/{{users[6]}}" alt="" width="100">
+                {% endif %} 
+            </div>
+            <form action="/insertarUserImg/{{users[0]}}" method="post" enctype="multipart/form-data">
+                <input type="file" name="img" id="">
+                <button type="submit">
+                    Guardar cambios
+                </button>
+            </form>
+        </div>
+    </div>
+    {% endblock %}
+
+    {% block script %} <script src="{{ url_for('static', filename='js/userPerfilModal.js') }}"></script> {% endblock %}

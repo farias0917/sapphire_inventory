@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+
+{% block title %} Usuarios {% endblock %}
+
+{% block link %} <link rel="stylesheet" href="{{ url_for('static', filename='css/users.css') }}">
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}"> 
+{% endblock %}
+
+{% block content %}
+
+<h1>Usuarios</h1>
+<section>
+    <button id="btnUserModal"><i class="fa-solid fa-plus"></i>  Agregar usuario</button>
+    <form action="#" method="post">
+        <a href="/searchProduct">Buscar usuario <i class="fa-solid fa-magnifying-glass searchIcon"></i></a>
+    </form>
+</section>
+<main class="main">
+    {% if users%}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th>Apellido</th>
+                <th>Teléfono</th>   
+                <th>Correo</th>
+                <th>Imagen</th>
+                <th colspan="2">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for user in usersList %}
+            <tr>
+                <td>{{user[0]}}</td>
+                <td>{{user[1]}}</td>
+                <td>{{user[2]}}</td>
+                <td>{{user[3]}}</td>
+                <td>{{user[4]}}</td>
+                <td>
+                    <form action="/deleteUser" method="post">
+                        <input type="hidden" value="{{user[0]}}" name="productId">
+                        <button type="submit" class="delete"><i class="fa-solid fa-trash"></i> Eliminar</button>
+                    </form>
+                </td>
+
+                <td>
+                    <a href="/updateUser/{{user[0]}}" class="update"><i class="fa-solid fa-pen-to-square"></i> Actualizar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay usuarios registrados</p>
+    {% endif %}
+</main>
+
+
+ <!--modal register users-->
+ <div class="userModal" id="userModal">
+    <div class="userModalContent">
+        <i class="fa-solid fa-xmark close" id="close"></i>
+        <h2>Registrar usuario</h2>
+        <div id="errorContainer"></div>
+        <form action="/addUser" method="post" id="form">
+            <div class="inputContainer">
+                <label for="marca">Nombre</label>
+                <input type="text" name="nombreUsuario" id="marca">
+                <div id="textoError"></div>
+            </div>
+
+            <div class="inputContainer">
+                <label for="nombre">Apellido:</label>
+                <input type="text" name="apellidoUsuario" id="nombre">
+                <div id="textoError2"></div>
+            </div>
+
+            <div class="inputContainer">
+                <label for="descripcion">Teléfono:</label>
+                <input type="text" name="telefonoUsuario" id="descripcion">
+                <div id="textoError3"></div>
+            </div>
+
+            <div class="inputContainer">
+                <label for="cantidad">Correo:</label>
+                <input type="email" name="correoUsuario" id="cantidad">
+                <div id="textoError4"></div>
+            </div>
+
+            <div class="inputContainer">
+                <label for="cantidad">Contraseña:</label>
+                <input type="password" name="contrasenaUsuario" id="contrasena">
+                <div id="textoError5"></div>
+            </div>
+
+            <div class="inputContainer">
+                <label for="cantidad">Repetir contraseña:</label>
+                <input type="password" id="confirmarContrasena">
+                <div id="textoError6"></div>
+            </div>
+            <div class="btnContainer">
+                <button type="submit" id="btn">Registrar usuario</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script src="{{ url_for('static', filename='js/userValidation.js') }}"></script> 
+<script src="{{ url_for('static', filename='js/userModal.js') }}"></script> 
+{% endblock %}

@@ -1,0 +1,49 @@
+{% extends "base.html" %}
+
+{% block title %} Buscar producto {% endblock %}
+
+{% block link %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/entries.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
+{% endblock %}
+
+{% block content %}
+<h1>Entradas</h1>
+
+<section>
+    <button id="btnEntriesModal">Agregar existencia</button>
+</section>
+
+ <!--modal register entries-->
+ <div class="entrieModal" id="entrieModal">
+    <div class="entrieModalContent">
+        <i class="fa-solid fa-xmark close" id="close"></i>
+        <h2>Agregar existencia</h2>
+        <div id="errorContainer"></div>
+        <form action="/addEntry" method="post" id="form">
+            <div class="inputContainer">
+                <label for="marca">Seleccionar producto:</label>
+                <select name="producto" id="">
+                    {% for product in products %}
+                    <option value="{{product[0]}}">{{product[2]}}</option>
+                    {% endfor %}
+                </select>
+                <div id="textoError"></div>
+            </div>
+
+            <div class="inputContainer">
+                <label for="nombre">Cantidad:</label>
+                <input type="number" name="cantidad" id="nombre">
+                <div id="textoError2"></div>
+            </div>
+            <div class="btnContainer">
+                <button type="submit" id="btn">Registrar usuario</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+{% block script %} 
+<script src="{{ url_for('static', filename='js/entries.js') }}"></script> 
+{% endblock %}

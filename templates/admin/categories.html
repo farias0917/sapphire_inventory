@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %} Categorias {% endblock %}
+
+{% block link %}
+ <link rel="stylesheet" href="{{ url_for('static', filename='css/categories.css') }}"> 
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
+{% endblock %}
+{% block content %}
+<h1>Categorias</h1>
+<section>
+    <button id="btnCategoryModal"><i class="fa-solid fa-plus"></i>  Agregar categoria</button>
+    <form action="#" method="post">
+        <a href="/searchProduct">Buscar Categoria <i class="fa-solid fa-magnifying-glass searchIcon"></i></a>
+    </form>
+</section>
+<main class="main">
+    {% if categories%}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Nombre</th>
+                <th colspan="2">Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for category in categories %}
+            <tr>
+                <td>{{category[0]}}</td>
+                <td>{{category[1]}}</td>
+                <td>
+                    <form action="/deleteUser" method="post">
+                        <input type="hidden" value="{{category[0]}}" name="productId">
+                        <button type="submit" class="delete"><i class="fa-solid fa-trash"></i> Eliminar</button>
+                    </form>
+                </td>
+
+                <td>
+                    <a href="/updateUser/{{category[0]}}" class="update"><i class="fa-solid fa-pen-to-square"></i> Actualizar</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay categorias registradas</p>
+    {% endif %}
+</main>
+
+
+ <!--modal register categories-->
+ <div class="categoryModal" id="categoryModal">
+    <div class="categoryModalContent">
+        <i class="fa-solid fa-xmark close" id="close"></i>
+        <h2>Registrar categoria</h2>
+        <div id="errorContainer"></div>
+        <form action="/addCategory" method="post" id="form">
+            <div class="inputContainer">
+                <label for="marca">Nombre:</label>
+                <input type="text" name="nombreCategoria" id="categoria">
+                <div id="textoError"></div>
+            </div>
+
+            <div class="btnContainer">
+                <button type="submit" id="btn">Registrar categoria</button>
+            </div>
+        </form>
+    </div>
+</div>
+
+{% endblock %}
+
+{% block script %}
+ <script src="{{ url_for('static', filename='js/productModal.js') }}"></script> 
+ <script src="{{ url_for('static', filename='js/categoryModal.js') }}"></script> 
+ {% endblock %}

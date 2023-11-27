@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+
+{% block title %} Productos {% endblock %}
+
+{% block link %} <link rel="stylesheet" href="{{ url_for('static', filename='css/products.css') }}"> 
+
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}"> {% endblock %}
+
+{% block content %}
+
+<h1>Productos</h1>
+<section>
+    <button id="btnProductModal"><i class="fa-solid fa-plus"></i>  Agregar producto</button>
+    <form action="#" method="post">
+        <a href="/searchProduct">Buscar producto <i class="fa-solid fa-magnifying-glass searchIcon"></i></a>
+    </form>
+</section>
+<main class="main">
+    {% if products%}
+    <table>
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Marca</th>
+                <th>Nombre</th>
+                <th>Descripción</th>   
+                <th>Cantidad</th>
+                <th>Fecha</th>
+                <th>Imagen</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            {% for product in products %}
+            <tr>
+                <td>{{product[0]}}</td>
+                <td>{{product[1]}}</td>
+                <td>{{product[2]}}</td>
+                <td>{{product[3]}}</td>
+                <td>{{product[4]}}</td>
+                <td>{{product[5]}}</td>
+                <td>
+                    <img src="../../static/img/{{product[6]}}" alt="">
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p>No hay productos registrados</p>
+    {% endif %}
+</main>
+
+<!--modal register products-->
+
+<div class="productModal" id="productModal">
+    <div class="productModalContent">
+        <i class="fa-solid fa-xmark close" id="close"></i>
+        <h2>Agregar producto</h2>
+        <div id="errorContainer"></div>
+        <form action="/addProduct" method="post" enctype="multipart/form-data" id="form">
+            <div class="formContainer">
+                <div class="formContainer1">
+
+                    <label for="categoria">Categoria:</label>
+                    <select name="categoria" class="selectCategory" id="categoria">
+                        <option value="" selected disabled >Categorias</option>
+                        {% if categories %}
+                        {% for category in categories %}
+                        <option value="{{category[0]}}">{{category[1]}}</option>
+                        {% endfor %}
+                        {% else %}
+                        <option value="" disabled >No hay categorias registradas</option>
+                        {% endif %}
+                    </select>
+                    <div id="textoError5"></div>
+                    
+                    <div class="inputContainer">
+                        <label for="marca">Marca del producto:</label>
+                        <input type="text" name="marca" id="marca">
+                        <div id="textoError"></div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label for="nombre">Nombre:</label>
+                        <input type="text" name="nombreProducto" id="nombre">
+                        <div id="textoError2"></div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label for="descripcion">Descripción:</label>
+                        <input type="text" name="descripcion" id="descripcion">
+                        <div id="textoError3"></div>
+                    </div>
+
+                    <div class="inputContainer">
+                        <label for="cantidad">Cantidad:</label>
+                        <input type="number" name="cantidad" id="cantidad">
+                        <div id="textoError4"></div>
+                    </div>
+
+                    <div class="fileContainer">
+                        <label for="productImg">Cargar imagen <i class="fa-solid fa-image"></i></label>
+                        <input type="file" name="productImg" id="productImg">
+                    </div>
+
+                    <div class="btnContainer">
+                        <button type="submit" id="btn">Agregar producto</button>
+                    </div>
+                </div>
+
+                <div class="formContainer2" id="formContainer2">
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block script %} 
+<script src="{{ url_for('static', filename='js/leerImg.js') }}"></script> 
+
+
+<script src="{{ url_for('static', filename='js/productModal.js') }}"></script> 
+
+<script src="{{ url_for('static', filename='js/productValidation.js') }}"></script> 
+
+{% endblock %}

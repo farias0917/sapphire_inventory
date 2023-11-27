@@ -1,0 +1,79 @@
+    {% extends "base.html" %}
+    
+    {% block link %}<link rel="stylesheet" href="{{ url_for('static', filename='css/main.css') }}">{% endblock %}
+
+    {% block title %} Home {% endblock %}
+
+    {% block content %}
+    <h1>Dash board</h1>
+    <main class="main">
+        <div class="card-container card-1">
+            
+            <div class="card-preview">
+                <i class="fa-solid fa-user"></i>
+                <div class="cart-quantity">
+                    <h4>{{userQty.0}}</h4>
+                    <p>Usuarios</p>
+                </div>
+            </div>
+            
+            <div class="card-more-info card-info-1">
+                <a href="/users">Más info <i class="fa-solid fa-plus"></i></a>
+            </div>
+        </div>
+
+        <div class="card-container card-2">
+            
+            <div class="card-preview">
+                <i class="fa-solid fa-user"></i>
+                <div class="cart-quantity">
+                    <h4>{{productQty.0}}</h4>
+                    <p>Productos</p>
+                </div>
+            </div>
+            
+            <div class="card-more-info card-info-2">
+                <a href="/products">Más info <i class="fa-solid fa-plus"></i></a>
+
+            </div>
+        </div>
+
+        <div class="card-container card-3">
+            
+            <div class="card-preview">
+                <i class="fa-solid fa-user"></i>
+                <div class="cart-quantity">
+                 <h4>{{categoryQty.0}}</h4>
+                    <p>Categorias</p>
+                </div>
+            </div>
+            
+            <div class="card-more-info card-info-3">
+                <a href="/categories">Más info <i class="fa-solid fa-plus"></i></a>
+
+            </div>
+        </div>
+
+        <div class="card-container card-4">
+            
+            <div class="card-preview">
+                <i class="fa-solid fa-user"></i>
+                <div class="cart-quantity">
+                    {% if entries %}
+                    <h4>{{entries.0}}</h4>
+                    {% else %}
+                    <h4>0</h4>
+                    {% endif %}
+                    <p>Existencias</p>
+                </div>
+            </div>
+            
+            <div class="card-more-info card-info-4">
+                <a href="/categories">Más info <i class="fa-solid fa-plus"></i></a>
+
+            </div>
+        </div>
+    </main>
+
+    
+    {% endblock %}

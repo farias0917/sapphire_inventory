@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+
+{% block title %} Buscar producto {% endblock %}
+
+{% block link %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/searchProduct.css') }}"> 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}"> 
+{% endblock %}
+
+{% block content %}
+<h1>Buscar producto</h1>
+
+<section>
+    <form action="/searchProductView" method="post">
+        <input type="search" placeholder="Buscar producto" name="buscar">
+        <button type="submit">Buscar <i class="fa-solid fa-magnifying-glass searchIcon"></i></button>
+    </form>
+</section>
+
+<main class="main">
+    {% if products %} {% for product in products  %} 
+    <table class="table">
+        <thead>
+            <tr>
+                 <th>Id</th>
+                 <th>Marca</th>
+                 <th>Nombre</th>
+                 <th>Descripción</th>
+                 <th>Cantidad</th>
+                 <th>Imagen</th>
+            </tr>
+        </thead>
+    
+        <tbody>   
+            <tr>
+                <td>{{product[0]}}</td>
+                <td>{{product[1]}}</td>
+                <td>{{product[2]}}</td>
+                <td>{{product[3]}}</td>
+                <td>{{product[4]}}</td> 
+                <td><img src="/mostrarImg/{{product[5]}}" alt="" width="60" id="imgPerfil"></td>  
+            </tr> 
+        </tbody>
+    </table>
+    {% endfor %}
+    {% else %}  
+    <p class="texto">El producto <b id="boltText">"{{mensaje}}"</b> no se encuentra registrado</p>  
+    {% endif %} 
+</main>
+
+{% endblock %}
+{% block script %} 
+{% endblock %}

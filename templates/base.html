@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %} SapphireInventory {% endblock %}</title>
+    {% block link %} {% endblock %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/menu.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/styles.css') }}">
+    <script src="https://kit.fontawesome.com/861b3604ef.js" crossorigin="anonymous"></script>
+</head>
+<body>
+
+    <div class="barra-lateral">
+        <div class="nombre-pagina">
+            <div class="logoContainer">
+                <a href="/main">
+                    <img src="../static/staticImg/logo.PNG" alt="50">
+                </a>
+            </div>
+        </div>
+
+        <nav class="navegacion">
+            <ul>
+                <li>
+                    <a href="{{url_for('main')}}">
+                        <ion-icon name="bar-chart-outline"></ion-icon>
+                        <span>Dashboard</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="{{url_for('products')}}">
+                        <ion-icon name="cube-outline"></ion-icon>
+                        <span>Productos</span>
+                    </a>
+                </li>
+
+                {% if users[7] == 1 %}
+                <li>
+                    <a href="{{url_for('users')}}">
+                        <ion-icon name="people-outline"></ion-icon>
+                        <span>Usuarios</span>
+                    </a>
+                </li>
+                {% endif %}
+
+                <li>
+                    <a href="{{url_for('categories')}}">
+                        <ion-icon name="albums-outline"></ion-icon>
+                        <span>Categorias</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="/entries">
+                        <ion-icon name="cart-outline"></ion-icon>
+                        <span>Entradas</span>
+                    </a>
+                </li>
+
+                <li>
+                    <a href="#">
+                        <ion-icon name="cash-outline"></ion-icon>
+                        <span>Salidas</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="linea"></div>
+
+        <div class="modo-oscuro">
+            <div class="info">
+                <ion-icon name="moon-outline"></ion-icon>
+                <span>dark mode</span>
+            </div>
+
+            <div class="switch">
+                <div class="base">
+                    <div class="circulo"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header>
+            <ion-icon id="btnMenu" class="btnMenu" name="menu-outline"></ion-icon>
+
+            <div class="menuHeader">
+                <p>{{session["name"]}} {{session["lastName"]}}</p>
+                <div class="imgContainer" >
+                    {% if users[6] == None %}
+                    <img src="../static/img/noimage.webp" alt="" width="100" id="imgPerfil">
+                    {% else %}
+                    <img src="/mostrarImg/{{users[6]}}" alt="" width="100" id="imgPerfil">
+                    {% endif %}
+                </div>
+                <div class="options" id="options">
+                    <a href="{{url_for('usersPerfil')}}">perfil <i class="fa-solid fa-pen-nib"></i></a>
+                    <a href="{{url_for('logOut')}}">Salir <i class="fa-solid fa-right-from-bracket"></i></a>
+                </div>
+            </div>
+        </header>
+
+        {% block content %} {% endblock %}
+    </div>
+    
+    
+    
+    
+    {% block script %} {% endblock %}
+    <script src="{{ url_for('static', filename='js/menu.js') }}"></script>
+    <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+    <script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+section input{
+    padding: 10px;
+    width: 300px;
+    border: none;
+    outline: none;
+    background-color: aliceblue;
+    border-radius: 5px;
+}
+
+.main .texto{
+    background: none;
+    color: black;
+}

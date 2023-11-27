@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %} Actualizar usuario {% endblock %}
+
+{% block link %} 
+<link rel="stylesheet" href="{{ url_for('static', filename='css/users.css') }}">
+
+{% endblock %}
+
+{% block content %}
+<div class="uptadeProductContainer">
+    <h2>Actualizar usuario</h2>
+
+        <form action="/updateUserForm/{{usersData[0]}}" method="post">
+            <label for="marca">Nombre:</label>
+                <input type="text" name="nombre" id="nombre" value="{{usersData[1]}}">
+
+                <label for="nombre">Apellido:</label>
+                <input type="text" name="apellido" id="apellido" value="{{usersData[2]}}">
+
+                <label for="descripcion">Teléfono:</label>
+                <input type="text" name="telefono" id="telefono" value="{{usersData[3]}}">
+
+                <label for="cantidad">Correo:</label>
+                <input type="text" name="correo" id="correo" value="{{usersData[4]}}">
+
+                <div class="btnUpdateContainer">
+                    <button type="submit">Actualizar Usuario</button>
+                </div>
+        </form>
+</div>
+{% endblock %}
+
+{% block script %} 
+{% endblock %}
