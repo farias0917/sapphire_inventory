@@ -3,67 +3,73 @@
 {% block title %} Buscar producto {% endblock %}
 
 {% block link %} 
-<link rel="stylesheet" href="{{ url_for('static', filename='css/entries.css') }}">
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sales.css') }}">
 <link rel="stylesheet" href="{{ url_for('static', filename='css/tables.css') }}">
 {% endblock %}
 
 {% block content %}
-<h1>Entradas</h1>
+<h1>Salidas</h1>
 
 <section>
-    <button id="btnEntriesModal">Agregar entrada</button>
+    <button id="btnEntriesModal">Agregar Salida</button>
 </section>
 
 <main class="main">
-    {% if entryProducts %}
+    {% if productSales %}
     <table>
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Producto</th>
-                <th>Existencias agregadas</th>
-                <th>Precio unitario</th>
-                <th>Precio total compra</th>
-                <th>Fecha</th>   
+                <th>Nombre</th>
+                <th>Cantidad</th>
+                <th>Precio de venta</th>
+                <th>Total</th> 
+                <th>Fecha</th> 
                 <th colspan="2">Acciones</th>
             </tr>
         </thead>
 
         <tbody>
-            {% for entryProduct in entryProducts %}
+            {% for productSale in productSales %}
             <tr>
-                <td>{{entryProduct[0]}}</td>
-                <td>{{entryProduct[1]}}</td>
-                <td>{{entryProduct[2]}}</td>
-                <td>{{entryProduct[3]}}$</td>
-                <td>{{entryProduct[4]}}$</td>
-                <td>{{entryProduct[5]}}</td>
+                <td>{{productSale[0]}}</td>
+                <td>{{productSale[1]}}</td>
+                <td>{{productSale[2]}}</td>
+                <td>{{productSale[3]}}$</td>
+                <td>{{productSale[4]}}$</td>
+                <td>{{productSale[5]}}$</td>
                 <td>
                     <form action="/deleteProduct" method="post">
-                        <input type="hidden" value="{{entryProduct[0]}}" name="productId">
+                        <input type="hidden" value="{{productSale[0]}}" name="productId">
                         <button type="submit" class="delete"><i class="fa-solid fa-trash"></i> Eliminar</button>
                     </form>
                 </td>
 
                 <td>
-                    <a href="/updateProduct/{{entryProduct[0]}}" class="update"><i class="fa-solid fa-pen-to-square"></i> Actualizar</a>
+                    <a href="/updateProduct/{{productSale[0]}}" class="update"><i class="fa-solid fa-pen-to-square"></i> Actualizar</a>
                 </td>
             </tr>
             {% endfor %}
         </tbody>
     </table>
     {% else %}
-    <p>No hay entradas registradas</p>
+    <p>No hay salidas registradas</p>
     {% endif %}
 </main>
 
+<p><b>Sub total</b></p>
+<p><b>Iva:</b>19%</p>
+<p><b>total:</b> 122$</p>
+
+
+
  <!--modal register entries-->
- <div class="entrieModal" id="entrieModal">
-    <div class="entrieModalContent">
+ <div class="salesModal" id="entrieModal">
+    <div class="salesModalContent">
         <i class="fa-solid fa-xmark close" id="close"></i>
         <h2>Agregar existencia</h2>
         <div id="errorContainer"></div>
-        <form action="/addEntry" method="post" id="form">
+        <form action="/addSale" method="post" id="form">
             <div class="inputContainer">
                 <label for="marca">Seleccionar producto:</label>
                 <select name="producto" id="">
@@ -80,7 +86,7 @@
             </div>
 
             <div class="inputContainer">
-                <label for="marca">Precio unitario:</label>
+                <label for="marca">Precio de venta:</label>
                 <input type="number" name="precioCompra" id="marca">
                 <div id="textoError"></div>
             </div>

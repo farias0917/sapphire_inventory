@@ -76,6 +76,19 @@ h1{
     background: #5abdcfc1;
 }
 
+.main .card-container .card-more-info.card-info-5{
+    background: #cdcf5ac1;
+}
+
+.main .card-container .card-more-info.card-info-6{
+    background: #565150c1;
+}
+
+.main .card-container .card-more-info.card-info-7{
+    background: #c35dd7c1;
+}
+
+
 
 .main .card-container.card-1{
     background: #ff8688c1;
@@ -92,6 +105,22 @@ h1{
 .main .card-container.card-4{
     background: #69d9edc1;
 }
+
+.main .card-container.card-5{
+    background: #ede469c1;
+}
+
+.main .card-container.card-6{
+    background: #554f4dc1;
+}
+
+.main .card-container.card-7{
+    background: #d769edc1;
+}
+
+
+
+
 
 
 

@@ -73,6 +73,66 @@
 
             </div>
         </div>
+
+        <div class="card-container card-5">
+            
+            <div class="card-preview">
+                <i class="fa-solid fa-user"></i>
+                <div class="cart-quantity">
+                    {% if entries %}
+                    <h4>0</h4>
+                    {% else %}
+                    <h4>0</h4>
+                    {% endif %}
+                    <p>Proveedores</p>
+                </div>
+            </div>
+            
+            <div class="card-more-info card-info-5">
+                <a href="/categories">Más info <i class="fa-solid fa-plus"></i></a>
+
+            </div>
+        </div>
+
+        <div class="card-container card-6">
+            
+            <div class="card-preview">
+                <i class="fa-solid fa-user"></i>
+                <div class="cart-quantity">
+                    {% if entries %}
+                    <h4>{{entriesTotal.0}}$</h4>
+                    {% else %}
+                    <h4>0</h4>
+                    {% endif %}
+                    <p>Total gastado</p>
+                </div>
+            </div>
+            
+            <div class="card-more-info card-info-6">
+                <a href="/categories">Más info <i class="fa-solid fa-plus"></i></a>
+
+            </div>
+        </div>
+
+        <div class="card-container card-7">
+            
+            <div class="card-preview">
+                <i class="fa-solid fa-user"></i>
+                <div class="cart-quantity">
+                    {% if entries %}
+                    <h4>{{salesTotal.0}}$</h4>
+                    {% else %}
+                    <h4>0</h4>
+                    {% endif %}
+                    <p>Ganancias totales</p>
+                </div>
+            </div>
+            
+            <div class="card-more-info card-info-7">
+                <a href="/categories">Más info <i class="fa-solid fa-plus"></i></a>
+
+            </div>
+        </div>
     </main>
 
     

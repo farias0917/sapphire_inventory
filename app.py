@@ -161,19 +161,26 @@ def main():
         curEntries = mysql.connection.cursor()
         curEntries.execute("SELECT SUM(product_qty) as totalExistencias FROM products")
         entries = curEntries.fetchall()
+
         
+        curEntriesTotal = mysql.connection.cursor()
+        curEntriesTotal.execute("SELECT SUM(purchase_price * entry_qty) as totalGastado FROM entries")
+        entriesTotal =  curEntriesTotal.fetchall()
+        curEntriesTotal.close()
+
+        curSalesTotal = mysql.connection.cursor()
+        curSalesTotal.execute("SELECT SUM(sale_price * sale_qty) as totalGanado FROM sales")
+        salesTotal = curSalesTotal.fetchall()
+
         cur.close()
         curUserQty.close()
         curProductQty.close()
         curCategoryQty.close()
         curEntries.close()
-
-
-
-        
-        
+        curEntriesTotal.close()
+        curSalesTotal.close()        
         if session["userRol"] == 1:
-            return render_template("admin/main.html", users= users,userQty = userQty[0], productQty = productQty[0], categoryQty = categoryQty[0], entries = entries[0])
+            return render_template("admin/main.html", users= users,userQty = userQty[0], productQty = productQty[0], categoryQty = categoryQty[0], entries = entries[0], entriesTotal = entriesTotal[0], salesTotal = salesTotal[0])
         
         
         if session["userRol"] == 2:
@@ -307,7 +314,7 @@ def addProduct():
         return redirect(url_for("products"))
 
     cur = mysql.connection.cursor()
-    cur.execute("INSERT INTO products(product_mark,product_name,product_desc,product_qty,product_date,product_img,category_id_fk) VALUES(%s, %s,%s,%s,%s,%s,%s)",(marca,nombreProducto,descripcion,cantidad,fechaReg,nuevoNombre,categoria))
+    cur.execute("INSERT INTO products(product_mark,product_name,product_desc,product_qty,product_date,product_img,category_id) VALUES(%s, %s,%s,%s,%s,%s,%s)",(marca,nombreProducto,descripcion,cantidad,fechaReg,nuevoNombre,categoria))
     mysql.connection.commit()
     cur.close()
 
@@ -407,21 +414,91 @@ def entries():
         products = curProducts.fetchall()
         curProducts.close()
 
-        return render_template("admin/entries.html", users = users[0], products = products)
+        curEntryProducts = mysql.connection.cursor()
+        curEntryProducts.execute("SELECT e.entry_id, p.product_name, e.entry_qty,e.purchase_price, sum(e.purchase_price * e.entry_qty) as total, e.entry_date FROM entries AS e INNER JOIN products as p on e.product_id = p.product_id GROUP BY e.entry_id")
+        entryProducts = curEntryProducts.fetchall()
+        curEntryProducts.close()
+        
+
+        return render_template("admin/entries.html", users = users[0], products = products, entryProducts = entryProducts)
     else:
         return redirect(url_for("index"))
+
 
 @app.route("/addEntry", methods=["POST"])
 def addEntry():
     idproducto = request.form["producto"]
+    precioCompra = request.form["precioCompra"]
     cantidad = request.form["cantidad"]
-    cur = mysql.connection.cursor()
+    tiempo = datetime.now()
+    fechaReg = tiempo.strftime("%Y-%m-%d %I:%M:%S")
+    
+    """cur = mysql.connection.cursor()
     cur.execute("UPDATE products SET product_qty = product_qty + %s WHERE product_id = %s", (cantidad, idproducto))
-
     mysql.connection.commit()
     cur.close()
+    """
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO entries (purchase_price,entry_qty,entry_date,product_id) VALUES (%s,%s,%s,%s)",(precioCompra,cantidad,fechaReg,idproducto))
+    mysql.connection.commit()
+    cur.close()
+
+    curProductos = mysql.connection.cursor()
+    curProductos.execute("UPDATE products SET product_qty = product_qty + %s WHERE product_id = %s",(cantidad, idproducto))
+    mysql.connection.commit()
+    curProductos.close()
     
     return redirect(url_for("entries"))
+
+
+@app.route("/sales", methods=["POST","GET"])
+def sales():
+    if "email" in session:
+        email = session["email"]
+        cur = mysql.connection.cursor()
+        cur.execute("SELECT * FROM users WHERE user_email = %s",[email])
+        users = cur.fetchall()
+        cur.close()
+
+        curProducto = mysql.connection.cursor()
+        curProducto.execute("SELECT * FROM products")
+        products = curProducto.fetchall()
+        curProducto.close()
+
+        curSaleProducto = mysql.connection.cursor()
+        curSaleProducto.execute("select s.sale_id, p.product_name, s.sale_qty, s.sale_price, sum(s.sale_price * s.sale_qty) as total, s.fecha from sales as s inner join products as p on s.product_id = p.product_id group by s.sale_id;")
+        productSales =   curSaleProducto.fetchall()
+        curSaleProducto.close()
+
+
+        return render_template("admin/sales.html", users = users[0], products = products, productSales = productSales)
+    else:
+        return redirect(url_for("index"))
+    
+
+@app.route("/addSale", methods=["POST","GET"])
+def addSale():
+    idproducto = request.form["producto"]
+    precioVenta = request.form["precioCompra"]
+    cantidad = request.form["cantidad"]
+    tiempo = datetime.now()
+    fechaReg = tiempo.strftime("%Y-%m-%d %I:%M:%S")
+
+    cur = mysql.connection.cursor()
+    cur.execute("INSERT INTO sales (sale_price,sale_qty,fecha,product_id) VALUES (%s,%s,%s,%s)",(precioVenta,cantidad,fechaReg,idproducto))
+    mysql.connection.commit()
+    cur.close()
+
+    curProductos = mysql.connection.cursor()
+    curProductos.execute("UPDATE products SET product_qty = product_qty - %s WHERE product_id = %s",(cantidad, idproducto))
+    mysql.connection.commit()
+    cur.close()
+
+    
+    return redirect(url_for("sales"))
+    
+    
+
 
 
 
